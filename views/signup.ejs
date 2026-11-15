@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Create your account</h1>
+
+    <% const v=locals.values || {}; %> <!-- v = the values to refill after an error -->
+
+        <% if (locals.error) { %>
+            <p style="color: red;">
+                <%= error %>
+            </p>
+            <% } %>
+
+                <form method="POST" action="/signup">
+                    <label>Name
+                        <input type="text" name="name" value="<%= v.name || '' %>" required>
+                    </label><br>
+
+                    <label>Email
+                        <input type="email" name="email" value="<%= v.email || '' %>" required>
+                    </label><br>
+
+                    <label>Password (8 to 72 characters)
+                        <input type="password" name="password" minlength="8" maxlength="72" required>
+                    </label><br>
+
+                    <label>Confirm password
+                        <input type="password" name="confirmPassword" required>
+                    </label><br>
+
+                    <label>Department
+                        <select name="departmentId" required>
+                            <option value="">Choose a department</option>
+                            <% departments.forEach( (d)=> { %>
+                                <option value="<%= d.id %>" <%=String(d.id)===String(v.departmentId) ? 'selected' : ''
+                                    %>>
+                                    <%= d.name %>
+                                </option>
+                                <% }); %>
+                        </select>
+                    </label><br>
+
+                    <label>Age
+                        <input type="number" name="age" min="16" max="100" value="<%= v.age || '' %>" required>
+                    </label><br>
+
+                    <label>Salary
+                        <input type="number" name="salary" min="0" step="0.01" value="<%= v.salary || '' %>" required>
+                    </label><br>
+
+                    <button type="submit">Sign up</button>
+                </form>
+
+                <p>Already have an account? <a href="/login">Log in</a></p>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update details for <%= employeeData.name %>
+    </title>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+
+        <h1>Update details for <%= employeeData.name %>
+        </h1>
+        <form action="/employee/<%= employeeData.id %>" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="<%= employeeData.name %>" required>
+            <br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="<%= employeeData.email %>" required>
+            <br><br>
+
+            <label for="departmentId">Department:</label>
+            <select id="departmentId" name="departmentId" required>
+                <% for (const department of departments) { %>
+                    <option value="<%= department.id %>" <%=department.id===employeeData.departmentId ? 'selected' : ''
+                        %>>
+                        <%= department.name %>
+                    </option>
+                    <% } %>
+            </select>
+            <br><br>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" value="<%= employeeData.age %>" required>
+            <br><br>
+
+            <label for="salary">Salary:</label>
+            <input type="number" id="salary" name="salary" step="0.01" value="<%= employeeData.salary %>" required>
+            <br><br>
+
+            <label for="newPassword">New password (leave blank to keep the current one):</label>
+            <input type="password" id="newPassword" name="newPassword" minlength="8" maxlength="72">
+            <br><br>
+
+            <% if (currentUser.role==='admin' ) { %>
+                <label for="role">Role:</label>
+                <select id="role" name="role">
+                    <option value="user" <%=employeeData.role==='user' ? 'selected' : '' %>>User</option>
+                    <option value="admin" <%=employeeData.role==='admin' ? 'selected' : '' %>>Admin</option>
+                </select>
+                <br><br>
+                <% } %>
+
+                    <button type="submit">Save changes</button>
+                    <a href="/employees">Cancel</a>
+        </form>
+</body>
+
+</html>

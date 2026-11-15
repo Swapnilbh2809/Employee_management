@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All employees</title>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+        <% const isAdmin=currentUser.role==='admin' ; %>
+
+            <h1>All employees</h1>
+            <% if (allEmployees.length===0) { %>
+                <p>Database is empty.</p>
+                <% } else { %>
+                    <ul>
+                        <% for (const employee of allEmployees) { %>
+                            <li>
+                                <a href="/employees/<%= employee.id %>">
+                                    <%= employee.name %>
+                                </a>
+                                - <%= employee.department ? employee.department.name : 'No department' %>
+                                    - <%= employee.email %>
+
+                                        <% if (isAdmin || employee.id===currentUser.id) { %>
+                                            <a href="/employee/<%= employee.id %>">[Edit]</a>
+                                            <% } %>
+
+                                                <% if (isAdmin && employee.id !==currentUser.id) { %>
+                                                    <form action="/employee/<%= employee.id %>/delete" method="post"
+                                                        style="display: inline;"
+                                                        onsubmit="return confirm('Delete this employee?');">
+                                                        <button>Delete</button>
+                                                    </form>
+                                                    <% } %>
+                            </li>
+                            <% } %>
+                    </ul>
+                    <% } %>
+
+                        <% if (isAdmin) { %>
+                            <form action="/employee/create" method="get">
+                                <button>create a new employee</button>
+                            </form>
+                            <% } %>
+
+                                <h1>All departments</h1>
+                                <% if (departments.length===0) { %>
+                                    <p>No departments yet.</p>
+                                    <% } else { %>
+                                        <ul>
+                                            <% for (const department of departments) { %>
+                                                <li>
+                                                    <%= department.name %>
+
+                                                        <% if (isAdmin) { %>
+                                                            <a href="/departments/<%= department.id %>/edit">[Edit]</a>
+                                                            <form action="/departments/<%= department.id %>/delete"
+                                                                method="post" style="display: inline;"
+                                                                onsubmit="return confirm('Delete this department?');">
+                                                                <button>Delete</button>
+                                                            </form>
+                                                            <% } %>
+                                                </li>
+                                                <% } %>
+                                        </ul>
+                                        <% } %>
+
+                                            <% if (isAdmin) { %>
+                                                <form action="/departments/new" method="get">
+                                                    <button>create a new department</button>
+                                                </form>
+                                                <% } %>
+</body>
+
+</html>

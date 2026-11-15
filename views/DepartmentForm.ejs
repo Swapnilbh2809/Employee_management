@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New dept.</title>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+
+        <% const isEdit=Boolean(locals.department); %>
+            <h1>
+                <%= isEdit ? 'Edit department' : 'New department' %>
+            </h1>
+
+            <form method="POST" action="<%= isEdit ? '/departments/' + department.id : '/departments' %>">
+                <label>Name
+                    <input type="text" name="name" value="<%= isEdit ? department.name : '' %>" required>
+                </label>
+                <button type="submit">
+                    <%= isEdit ? 'Save changes' : 'Create department' %>
+                </button>
+            </form>
+
+            <p><a href="/employees">Back</a></p>
+</body>
+
+</html>

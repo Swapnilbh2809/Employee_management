@@ -1,0 +1,13 @@
+<nav>
+    <a href="/employees">Employees &amp; Departments</a>
+
+    <% if (locals.currentUser) { %>
+        <span>Signed in as <%= currentUser.name %> (<%= currentUser.role %>)</span>
+
+        <!-- A form with POST, not a link, for the CSRF reason explained in Step 6 -->
+        <form method="POST" action="/logout" style="display: inline;">
+            <button type="submit">Log out</button>
+        </form>
+    <% } %>
+</nav>
+<hr>

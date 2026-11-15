@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= employeeData.name %>
+    </title>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+    <% const isAdmin = currentUser.role === 'admin'; %>
+    <% const isSelf = currentUser.id === employeeData.id; %>
+
+    <h1>Employee Details</h1>
+    <ul>
+        <li>ID: <%= employeeData.id %></li>
+        <li>Name: <%= employeeData.name %></li>
+        <li>Email: <%= employeeData.email %></li>
+        <li>Department: <%= employeeData.department ? employeeData.department.name : 'No department' %></li>
+        <li>Age: <%= employeeData.age %></li>
+        <li>Salary: <%= employeeData.salary %></li>
+    </ul>
+
+    <% if (isAdmin || isSelf) { %>
+        <form action="/employee/<%= employeeData.id %>" method="get">
+            <button type="submit">Update details</button>
+        </form>
+        <br>
+    <% } %>
+
+    <% if (isAdmin && !isSelf) { %>
+        <form action="/employee/<%= employeeData.id %>/delete" method="post"
+              onsubmit="return confirm('Delete this employee?');">
+            <button type="submit">Delete employee</button>
+        </form>
+        <br>
+    <% } %>
+
+    <form action="/employees" method="get"><button>back to home</button></form>
+</body>
+
+
+</html>
