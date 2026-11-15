@@ -148,3 +148,7 @@ TABLE ASSOCIATION
 - A department can have many employees.
 - The association aliases are department on an employee and employees on a
   department. These aliases are used when loading associated records.
+
+
+  admin login and password:-  admin@gmail.com || admin@123
+  				
