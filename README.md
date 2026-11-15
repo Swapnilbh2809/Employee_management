@@ -121,3 +121,30 @@ These routes require the user to be logged in, unless noted otherwise.
 - Employee edit routes allow the employee themselves or an admin. Other users
   receive 403.
 - Signup and login pages redirect already logged-in users to /employees.
+
+=============================DATABASE SCHEMAS AND ASSOCIATION=============================
+
+Sequelize adds an auto-incrementing id primary key to both models.
+
+EMPLOYEE
+- name: required string
+- email: required, unique string, and must be a valid email
+- departmentId: required integer; stored in the database column named department
+- age: required integer
+- salary: required decimal with up to 10 digits and 2 decimal places
+- passwordHash: string; can be null for older accounts
+- role: required string, defaults to user, and only allows user or admin
+- timestamps are disabled for this model
+- passwordHash is excluded from normal queries by default
+
+DEPARTMENT
+- name: required, unique string
+- Sequelize timestamps are enabled by default, so createdAt and updatedAt are
+  also maintained
+
+TABLE ASSOCIATION
+- An employee belongs to one department through employee.departmentId. In the
+  database, that foreign key is stored in the department column.
+- A department can have many employees.
+- The association aliases are department on an employee and employees on a
+  department. These aliases are used when loading associated records.
